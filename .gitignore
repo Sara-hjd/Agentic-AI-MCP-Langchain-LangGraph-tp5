@@ -1,0 +1,19 @@
+# Secrets
+.env
+
+# Environnement Python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.langgraph_api/
+
+# Supports fournis par le professeur (non versionnés)
+*.pdf
+*.heic
+agentic_ai_with_langchain_V3.ipynb
+demo-langgraph.ipynb
+
+# Fichiers générés
+.DS_Store
+doc.txt
