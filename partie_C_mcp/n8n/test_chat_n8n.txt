@@ -1,0 +1,18 @@
+# Test de l'agent n8n (workflow « TP5 - Agent n8n client du serveur MCP »)
+# n8n 2.49.6 (Docker) · AI Agent + Ollama Chat Model (qwen3-vl:8b) + Simple Memory + MCP Client (httpStreamable)
+# Le chat est appelé par son webhook, comme le fait l'interface de chat n8n.
+
+$ curl -X POST http://localhost:5678/webhook/7d3e9a52-5c1b-4f0e-9a61-2b8c4d0e7f11/chat \
+       -H 'content-type: application/json' \
+       -d '{"action":"sendMessage","sessionId":"demo-1","chatInput":"Quel est le salaire de Hassan ?"}'
+{"output":"Le salaire de Hassan est de 23 000 euros."}
+
+$ curl ... -d '{"action":"sendMessage","sessionId":"demo-1","chatInput":"Et son ancienneté ?"}'
+{"output":"Son ancienneté est de 12 ans."}
+
+$ curl ... -d '{"action":"sendMessage","sessionId":"demo-2","chatInput":"Cherche sur le web : qu'"'"'est-ce que n8n ? Réponds en une phrase."}'
+{"output":"n8n est un outil open-source d'automatisation de workflows qui relie des applications entre elles via des nœuds, exécute des séquences de tâches sans intervention humaine et intègre une intelligence artificielle native depuis 2023."}
+
+# Journal du serveur MCP (uv run partie_C_mcp/mcp_server.py) pendant ces échanges :
+[MCP] get_employee_infos('Hassan')
+[MCP] search("qu'est-ce que n8n ?")
