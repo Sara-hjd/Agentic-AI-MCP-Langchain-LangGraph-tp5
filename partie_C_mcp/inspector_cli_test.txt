@@ -1,0 +1,64 @@
+# Test du serveur MCP avec @modelcontextprotocol/inspector (mode CLI, transport streamable-http)
+# Serveur : uv run partie_C_mcp/mcp_server.py  ->  http://localhost:24000/mcp
+
+$ npx @modelcontextprotocol/inspector --cli http://localhost:24000/mcp --transport http --method tools/list
+{
+  "tools": [
+    {
+      "name": "get_employee_infos",
+      "description": "Get information about the given employee (name, salary, seniority).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "get_employee_infosArguments"
+      }
+    },
+    {
+      "name": "search",
+      "description": "Search the web for the given query (Tavily).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "title": "Query",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "title": "searchArguments"
+      }
+    }
+  ]
+}
+
+$ npx @modelcontextprotocol/inspector --cli http://localhost:24000/mcp --transport http --method tools/call --tool-name get_employee_infos --tool-arg name=Hassan
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"name\": \"Hassan\",\n  \"salary\": 23000,\n  \"seniority\": 12\n}"
+    }
+  ],
+  "isError": false
+}
+
+$ npx @modelcontextprotocol/inspector --cli http://localhost:24000/mcp --transport http --method tools/call --tool-name search --tool-arg "query=LangGraph framework"
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"query\": \"LangGraph framework\",\n  \"follow_up_questions\": null,\n  \"answer\": null,\n  \"images\": [],\n  \"results\": [\n    {\n      \"url\": \"https://docs.langchain.com/oss/python/langgraph/overview\",\n      \"title\": \"LangGraph overview - Docs by LangChain\",\n      \"content\": \"LangGraph is a low-level orchestration framework and runtime for long-running, stateful agents. You define workflows as graphs of shared state, nodes, and edges, and can mix deterministic steps with LLM-driven steps in the same graph. LangGraph focuses on orchestration capabilities such as durable execution, streaming, and human-in-the-loop. It does not prescribe prompts or agent architecture. Before you start, learn the building blocks agents use, especially models and tools. Docs examples [...] \\\\_jsxs(\\\\_Fragment,{children:[\\\\_jsx(\\\\_components.p,{children:`LangGraph is a low-level orchestration framework and runtime for long-running, stateful agents. You define workflows as graphs of shared state, nodes, and edges, and can mix deterministic steps with LLM-driven steps in the same graph.`}),`\\\\n`,\\\\_jsxs(\\\\_components.p,{children:[`LangGraph focuses on orchestration capabilities such as `,\\\\_jsx(\\\\_components.a,{href:`/oss/python/langgraph/persistence`,children:`durable execution`}),`, [...] Deep Agents is an agent harness: planning, subagents, filesystem tools, and context management on top of LangGraph.\\n LangChain is the agent framework: abstractions and integrations for models, tools, and agent loops.\\n LangGraph is the orchestration runtime: durable execution, streaming, human-in-the-loop, and persistence.\\n LangSmith is the platform for tracing, evaluation, prompts, and deployment across frameworks.\",\n      \"score\": 0.8477158,\n      \"raw_content\": null,\n      \"id\": \"06bee6-00\"\n    },\n    {\n      \"url\": \"https://docs.langchain.com/oss/javascript/langgraph/overview\",\n      \"title\": \"LangGraph overview - Docs by LangChain\",\n      \"content\": \"LangGraph is a low-level orchestration framework and runtime for long-running, stateful agents. You define workflows as graphs of shared state, nodes, and edges, and can mix deterministic steps with LLM-driven steps in the same graph. LangGraph focuses on orchestration capabilities such as durable execution, streaming, and human-in-the-loop. It does not prescribe prompts or agent architecture. Before you start, learn the building blocks agents use, especially models and tools. Docs examples [...] \\\\_jsxs(\\\\_Fragment,{children:[\\\\_jsx(\\\\_components.p,{children:`LangGraph is a low-level orchestration framework and runtime for long-running, stateful agents. You define workflows as graphs of shared state, nodes, and edges, and can mix deterministic steps with LLM-driven steps in the same graph.`}),`\\\\n`,\\\\_jsxs(\\\\_components.p,{children:[`LangGraph focuses on orchestration capabilities such as `,\\\\_jsx(\\\\_components.a,{href:`/oss/javascript/langgraph/persistence`,children:`durable execution`}),`, [...] Deep Agents is an agent harness: planning, subagents, filesystem tools, and context management on top of LangGraph.\\n LangChain is the agent framework: abstractions and integrations for models, tools, and agent loops.\\n LangGraph is the orchestration runtime: durable execution, streaming, human-in-the-loop, and persistence.\\n LangSmith is the platform for tracing, evaluation, prompts, and deployment across frameworks.\",\n      \"score\": 0.8477158,\n      \"raw_content\": null,\n      \"id\": \"1bf8cc-01\"\n    },\n    {\n      \"url\": \"https://www.ibm.com/think/topics/langgraph\",\n      \"title\": \"What is LangGraph? | IBM\",\n      \"content\": \"LangGraph, created by LangChain, is an open source AI agent framework designed to build, deploy and manage complex generative AI agent workflows. It provides a set of tools and libraries that enable users to create, run and optimize large language models (LLMs) in a scalable and efficient manner. At its core, LangGraph uses the power of graph-based architectures to model and manage the intricate relationships between various components of an AI agent workflow. [...] LangGraph is also built on several key technologies, including LangChain, a Python framework for building AI applications. LangChain includes a library for building and managing LLMs. LangGraph also uses the human-in-the-loop approach. By combining these technologies with a set of APIs and tools, LangGraph provides users with a versatile platform for developing AI solutions and workflows including chatbots, state graphs and other agent-based systems.\",\n      \"score\": 0.8161134,\n      \"raw_content\": null,\n      \"id\": \"8e64c7-02\"\n    }\n  ],\n  \"response_time\": 1.09,\n  \"request_id\": \"be8bbf8c-40c8-4881-8198-cd8c7ee71312\"\n}"
+    }
+  ],
+  "isError": false
+}
